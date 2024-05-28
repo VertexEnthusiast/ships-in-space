@@ -9,7 +9,7 @@ class Entity {
         sf::Sprite sprite;
         static const sf::Vector2f spriteScale;
 
-        Entity(int x, int y);
+        Entity(int x, int y, const char* texturePath);
         ~Entity();
 
         virtual void update();

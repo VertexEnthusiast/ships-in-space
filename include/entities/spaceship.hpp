@@ -9,7 +9,7 @@ public:
     const int maxCooldown = 60;
     int cooldown;
 
-    Spaceship(int x, int y);
+    Spaceship(int x, int y, const char* texturePath);
     ~Spaceship();
 
     void shoot();

@@ -1,8 +1,8 @@
 #include <entities/spaceship.hpp>
 #include <iostream>
 
-Spaceship::Spaceship(int x, int y)
-: Entity(x, y), cooldown(0)
+Spaceship::Spaceship(int x, int y, const char* texturePath)
+: Entity(x, y, texturePath), cooldown(0)
 {
     this->texture.loadFromFile("assets/Spaceship.png");
     this->sprite.setTexture(texture);
@@ -21,7 +21,7 @@ void Spaceship::shoot()
     }
 
     // Create a new Projectile object using std::make_unique
-    auto projectile = std::make_unique<Projectile>(this->x, this->y, speed);
+    auto projectile = std::make_unique<Projectile>(this->x, this->y, "assets/super_projectile_sheet.png", speed);
     fired.push_back(std::move(projectile)); // Move the unique_ptr into the vector
     cooldown = maxCooldown;
 }

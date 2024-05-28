@@ -1,7 +1,7 @@
 #include <entities/projectile.hpp>
 
-Projectile::Projectile(int x, int y, int speed)
-: Entity(x, y), speed(speed), currentFrame(0), frameTime(0)
+Projectile::Projectile(int x, int y, const char* texturePath, int speed)
+: Entity(x, y, texturePath), speed(speed), currentFrame(0), frameTime(0)
 {
     this->texture.loadFromFile("assets/super_projectile_sheet.png");
     this->sprite.setTexture(this->texture);

@@ -2,19 +2,19 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-// Entity::Entity(int x, int y){
-//     this->x = x;
-//     this->y = y;
-// }
-Entity::Entity(int x, int y) : x(x), y(y) {
+Entity::Entity(int x, int y, const char *texturePath) : x(x), y(y)
+{
+    this->texture.loadFromFile(texturePath);
     std::cout << "Entity constructed at (" << x << ", " << y << ")\n";
 }
 
-Entity::~Entity(){
+Entity::~Entity()
+{
     std::cout << "Called destructor on entity";
 }
 
-void Entity::update(){
+void Entity::update()
+{
     sprite.setPosition(sf::Vector2f(x, y));
 }
 

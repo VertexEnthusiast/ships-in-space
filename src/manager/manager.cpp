@@ -7,7 +7,7 @@
 
 // Constructor definition
 GameManager::GameManager(sf::RenderWindow *gameWindow)
-    : gameWindow(gameWindow), player(new Spaceship(0, 500))
+    : gameWindow(gameWindow), player(new Spaceship(0, 500, "assets/spaceship.png"))
 {
     // Additional initialization if needed
     std::cout << "GameManager initialized with window pointer" << std::endl;

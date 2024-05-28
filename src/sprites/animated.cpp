@@ -1,3 +1,5 @@
 #include <sprites/animated.hpp>
 
-void animate()
+void animate(){
+    
+}
