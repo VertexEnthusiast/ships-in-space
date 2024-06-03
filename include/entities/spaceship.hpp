@@ -1,15 +1,18 @@
 #pragma once
+#include <SFML/Audio.hpp>
 #include <entities/entity.hpp>
 #include <entities/projectile.hpp>
 
-class Spaceship : public Entity
+class Spaceship : public Animated
 {
 public:
     std::vector<std::unique_ptr<Projectile>> fired;
-    const int maxCooldown = 60;
+    sf::SoundBuffer projSoundBuffer;
+    sf::Sound projectileSound;
+    const int maxCooldown = 12;
     int cooldown;
 
-    Spaceship(int x, int y, const char* texturePath);
+    Spaceship(int x, int y, const char* texturePath, struct FrameData* frameInfo);
     ~Spaceship();
 
     void shoot();

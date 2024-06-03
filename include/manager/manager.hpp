@@ -3,11 +3,17 @@
 #include <SFML/Graphics.hpp>
 #include <entities/entity.hpp>
 #include <entities/spaceship.hpp>
+#include <manager/spawner.hpp>
 
 class GameManager
 {
 public:
-    Spaceship *player;
+    std::unique_ptr<Spaceship> player;
+    std::unique_ptr<Spawner> spawner;
+    sf::Font font;
+    sf::Text scoreText;
+    sf::Texture background;
+    sf::Sprite backgroundSprite;
 
     GameManager(sf::RenderWindow *gameWindow);
     ~GameManager();

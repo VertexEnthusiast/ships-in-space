@@ -4,8 +4,8 @@
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
-    sf::Texture texture;
-    texture.loadFromFile("assets/Alyssa.png");
+    // sf::Texture texture;
+    // texture.loadFromFile("assets/Alyssa.png");
     GameManager manager(&window);
     // change the size of the window
     window.setFramerateLimit(60);

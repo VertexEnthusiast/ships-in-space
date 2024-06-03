@@ -10,9 +10,11 @@ class Entity {
         static const sf::Vector2f spriteScale;
 
         Entity(int x, int y, const char* texturePath);
-        ~Entity();
+        virtual ~Entity();
 
         virtual void update();
+
+        static bool projectileCollides(Entity* a, Entity* b);
 };
 
 // Initialize the static const member
