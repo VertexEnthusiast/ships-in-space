@@ -7,11 +7,13 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -I/opt/homebrew/include/ -Iinclude/
 
 # Linker flags
-LDFLAGS = -L/opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS = -L/opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 # Source files
 SRCS = \
-src/main.cpp src/entities/entity.cpp src/manager/manager.cpp src/entities/spaceship.cpp src/entities/projectile.cpp
+src/main.cpp src/entities/entity.cpp src/manager/manager.cpp \
+src/entities/spaceship.cpp src/entities/projectile.cpp src/sprites/animated.cpp \
+src/manager/spawner.cpp src/entities/enemy.cpp src/ui/button.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
