@@ -5,12 +5,11 @@
 
 Spaceship::Spaceship(int x, int y, const char *texturePath, struct FrameData *frameInfo)
     : Animated(x, y, texturePath, frameInfo), cooldown(0)
-{   
+{
     if (!projSoundBuffer.loadFromFile("assets/lasergun_v1.wav"))
         puts("Error loading laser sound");
-    
-    projectileSound.setBuffer(projSoundBuffer);
 
+    projectileSound.setBuffer(projSoundBuffer);
 }
 
 void Spaceship::shoot()

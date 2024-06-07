@@ -19,17 +19,25 @@ GameManager::GameManager(sf::RenderWindow *gameWindow)
     scoreText.setCharacterSize(24);
     // scoreText.setFillColor(sf::Color::White);
 
-    // Initialise player
 
-    struct FrameData frameInfo ={
+    // Initialise player
+    int width = 80;
+    int height = 40;
+    startButton = std::make_unique<Button>(400-(width/2), 300-(height/2), width, height, *gameWindow, "Start", "assets/8bit.ttf", 10, 10, 24);
+
+    width = 80;
+    height = 40;
+    quitButton = std::make_unique<Button>(400-(width/2), 380-(height/2), width, height, *gameWindow, "Quit", "assets/8bit.ttf", 10, 10, 24);
+
+    struct FrameData frameInfo = {
         .framesPerUpdate = 6,
         .numFrames = 4,
         .xdim = 32,
-        .ydim = 32
-    };
+        .ydim = 32};
     player = std::make_unique<Spaceship>(0, 500, "assets/animated_big_spaceship_v3.png", &frameInfo);
     std::cout << "GameManager initialized with window pointer" << std::endl;
 
+    // Initialise background
     background.loadFromFile("assets/starry_background.png");
     backgroundSprite.setTexture(background);
     backgroundSprite.setPosition(0, 0);
@@ -44,6 +52,17 @@ GameManager::~GameManager()
 // Update function definition
 void GameManager::update()
 {
+    // If game hasn't started yet
+    if (!started){
+
+        if (startButton->update()){
+            started = true;
+        }
+        if (quitButton->update()){
+            quit = true;
+        }
+        return;
+    }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left))
     {
         // left key is pressed: move our character
@@ -97,6 +116,13 @@ void GameManager::draw()
     gameWindow->clear(sf::Color::Black);
     gameWindow->draw(backgroundSprite);
 
+    if (!started){
+        startButton->draw();
+        quitButton->draw();
+        gameWindow->display();
+        return;
+    }
+    
 
     // Draw projectiles
     int firedLen = player->fired.size();
@@ -105,11 +131,9 @@ void GameManager::draw()
         gameWindow->draw(player->fired[i]->sprite);
     }
 
-
     // Draw player
     gameWindow->draw(player->sprite);
 
-    
     // Draw enemies
     int enemyLen = spawner->enemies.size();
     for (int i = 0; i < enemyLen; i++)
@@ -120,6 +144,7 @@ void GameManager::draw()
     // Draw score
     gameWindow->draw(scoreText);
 
+    // Draw pause button
 
     gameWindow->display();
 }

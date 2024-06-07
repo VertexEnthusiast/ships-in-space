@@ -1,7 +1,7 @@
 #include <entities/projectile.hpp>
 
-Projectile::Projectile(int x, int y, const char* texturePath, struct FrameData* frameInfo, int speed)
-: Animated(x, y, texturePath, frameInfo), speed(speed)
+Projectile::Projectile(int x, int y, const char *texturePath, struct FrameData *frameInfo, int speed)
+    : Animated(x, y, texturePath, frameInfo), speed(speed)
 {
     // this->texture.loadFromFile("assets/super_projectile_sheet.png");
     // this->sprite.setTexture(this->texture);
@@ -16,8 +16,8 @@ Projectile::Projectile(int x, int y, const char* texturePath, struct FrameData* 
     // this->sprite.setTextureRect(frames[0]);
 }
 
-Projectile::~Projectile(){
-    
+Projectile::~Projectile()
+{
 }
 
 void Projectile::update()
@@ -38,4 +38,3 @@ void Projectile::update()
     this->y -= speed * 1;
     sprite.setPosition(sf::Vector2f(this->x, this->y));
 }
-

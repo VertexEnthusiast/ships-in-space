@@ -3,10 +3,11 @@
 #include <entities/enemy.hpp>
 #include <SFML/Audio.hpp>
 /**
- * This class is responsible for spawning enemies and powerups, 
+ * This class is responsible for spawning enemies and powerups,
  * and handles deletion of enemies once they are killed
-*/
-class Spawner {
+ */
+class Spawner
+{
 public:
     std::vector<std::unique_ptr<Enemy>> enemies;
     //
@@ -16,16 +17,13 @@ public:
     sf::SoundBuffer explosionBuffer;
     sf::Sound explosionSound;
 
-
-
-
     Spawner();
     ~Spawner();
 
     void update();
     void spawn();
-    bool checkProjectileCollision(Entity* projectile);
+    bool checkProjectileCollision(Entity *projectile);
     void checkEnemies();
     void checkNextWave();
-    void killEnemy(Enemy* enemy);
+    void killEnemy(Enemy *enemy);
 };

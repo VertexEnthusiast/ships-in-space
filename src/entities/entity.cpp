@@ -22,8 +22,8 @@ void Entity::update()
 
 bool Entity::projectileCollides(Entity *projectile, Entity *entity)
 {
-    sf::Sprite& sprite1 = projectile->sprite;
-    sf::Sprite& sprite2 = entity->sprite;
+    sf::Sprite &sprite1 = projectile->sprite;
+    sf::Sprite &sprite2 = entity->sprite;
     // Get the position and size of the first sprite
     sf::FloatRect bounds1 = sprite1.getGlobalBounds();
 
@@ -33,8 +33,7 @@ bool Entity::projectileCollides(Entity *projectile, Entity *entity)
     // Calculate the top-left position of the 4x4 square centered in the 32x32 sprite
     sf::Vector2f innerSquarePosition(
         bounds1.left + (bounds1.width / 2.f) - (innerSquareSize.x / 2.f),
-        bounds1.top + (bounds1.height / 2.f) - (innerSquareSize.y / 2.f)
-    );
+        bounds1.top + (bounds1.height / 2.f) - (innerSquareSize.y / 2.f));
 
     // Create a FloatRect representing the 4x4 square
     sf::FloatRect innerSquare(innerSquarePosition, innerSquareSize);

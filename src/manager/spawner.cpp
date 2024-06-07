@@ -36,7 +36,8 @@ void Spawner::update()
     for (int i = 0; i < enemyLen; i++)
     {
         // Check all the enemies to ensure none have 0 health
-        if (enemies[i]->exploded){
+        if (enemies[i]->exploded)
+        {
             enemies.erase(enemies.begin() + i);
             i--;
             enemyLen--;
@@ -96,7 +97,7 @@ void Spawner::spawn()
  * Iterate through all enemies and delete 'exploded' enemies
  * and trigger explosion on 'killed' enemies
  */
-bool Spawner::checkProjectileCollision(Entity * projectile)
+bool Spawner::checkProjectileCollision(Entity *projectile)
 {
     int x = projectile->x;
     int y = projectile->y;
@@ -131,4 +132,4 @@ bool Spawner::checkProjectileCollision(Entity * projectile)
     return false;
 }
 void checkNextWave();
-void killEnemy(Enemy * enemy);
+void killEnemy(Enemy *enemy);

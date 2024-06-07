@@ -31,7 +31,8 @@ void Animated::animate()
     // sprite.setPosition(sf::Vector2f(this->x, this->y));
 }
 
-void Animated::updateAnimation(const char *texturePath, struct FrameData *frameInfo){
+void Animated::updateAnimation(const char *texturePath, struct FrameData *frameInfo)
+{
     this->texture.loadFromFile(texturePath);
     this->sprite.setTexture(this->texture);
     this->framesPerUpdate = frameInfo->framesPerUpdate;

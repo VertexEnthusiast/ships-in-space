@@ -12,7 +12,7 @@ public:
     const int maxCooldown = 12;
     int cooldown;
 
-    Spaceship(int x, int y, const char* texturePath, struct FrameData* frameInfo);
+    Spaceship(int x, int y, const char *texturePath, struct FrameData *frameInfo);
     ~Spaceship();
 
     void shoot();
