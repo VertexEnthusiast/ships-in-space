@@ -6,6 +6,11 @@
 
 https://github.com/herbertiser/ships-in-space/assets/152287856/55dbdccc-7a2a-4b57-8a74-5ee5912dc613
 
+## Prerequisites
+
+- C++ compiler (e.g., g++)
+- [SFML](https://www.sfml-dev.org/download.php) library
+
 ## Building the Project
 
 1. Clone the repository:
