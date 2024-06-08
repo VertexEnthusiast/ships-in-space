@@ -3,7 +3,8 @@
 
 ## Demo
 
-![Demo](https://github.com/herbertiser/ships-in-space/tree/main/assets/demo.mov)
+
+https://github.com/herbertiser/ships-in-space/assets/152287856/55dbdccc-7a2a-4b57-8a74-5ee5912dc613
 
 ## Building the Project
 
