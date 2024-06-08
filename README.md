@@ -15,8 +15,7 @@ https://github.com/herbertiser/ships-in-space/assets/152287856/55dbdccc-7a2a-4b5
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/MyProject.git
-    cd MyProject
+    git clone https://github.com/herbertiser/ships-in-space.git
     ```
 
 2. Set the environment variables (or edit the makefile comments directly) for the SFML include and library directories:
