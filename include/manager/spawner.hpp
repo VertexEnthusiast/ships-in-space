@@ -1,6 +1,7 @@
 #pragma once
 
 #include <entities/enemy.hpp>
+#include <entities/spaceship.hpp>
 #include <SFML/Audio.hpp>
 /**
  * This class is responsible for spawning enemies and powerups,
@@ -10,6 +11,7 @@ class Spawner
 {
 public:
     std::vector<std::unique_ptr<Enemy>> enemies;
+    std::vector<std::unique_ptr<Projectile>> enemyProjectiles;
     //
     int difficulty;
     int score = 0;
@@ -20,7 +22,7 @@ public:
     Spawner();
     ~Spawner();
 
-    void update();
+    void update(Spaceship& spaceship);
     void spawn();
     bool checkProjectileCollision(Entity *projectile);
     void checkEnemies();

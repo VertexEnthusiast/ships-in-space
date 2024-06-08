@@ -62,6 +62,7 @@ bool Button::update()
     {
         buttonShape.setFillColor(sf::Color(255, 255, 255, 0));
     }
+    return false;
 }
 
 void Button::draw()

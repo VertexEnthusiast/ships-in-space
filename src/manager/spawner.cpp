@@ -1,6 +1,7 @@
 #include <manager/spawner.hpp>
 #include <entities/enemy.hpp>
 #include <entities/entity.hpp>
+#include <entities/spaceship.hpp>
 #include <iostream>
 #include <random>
 
@@ -21,7 +22,7 @@ Spawner::~Spawner()
  * Call update on all enemies, powerups
  * Check conditions
  */
-void Spawner::update()
+void Spawner::update(Spaceship &spaceship)
 {
     if (timeUntilSpawn == 0)
     {
@@ -45,6 +46,23 @@ void Spawner::update()
         }
         // Update enemy
         enemies[i]->update();
+    }
+    // Check if the enemy projectile has hit the player
+    int projectileLen = enemyProjectiles.size();
+    for (int j = 0; j < projectileLen; j++)
+    {
+        if (Entity::projectileCollides(enemyProjectiles[j].get(), &spaceship))
+        {
+            spaceship.health -= 1;
+            enemyProjectiles.erase(enemyProjectiles.begin() + j);
+            projectileLen--;
+            j--;
+            continue;
+        }
+        else
+        {
+            enemyProjectiles[j]->update();
+        }
     }
 }
 
@@ -87,11 +105,11 @@ void Spawner::spawn()
         .numFrames = 4,
         .xdim = 32,
         .ydim = 32};
-    auto enemy = std::make_unique<Enemy>(x_pos, -100, "assets/basic_enemy.png", &frameInfo, health, speed);
+    auto enemy = std::make_unique<Enemy>(x_pos, -100, "assets/basic_enemy.png", &frameInfo, health, speed, enemyProjectiles);
 
     enemies.push_back(std::move(enemy));
 
-    timeUntilSpawn = 120;
+    timeUntilSpawn = 50;
 }
 /**
  * Iterate through all enemies and delete 'exploded' enemies
@@ -99,16 +117,6 @@ void Spawner::spawn()
  */
 bool Spawner::checkProjectileCollision(Entity *projectile)
 {
-    int x = projectile->x;
-    int y = projectile->y;
-    int width = projectile->sprite.getGlobalBounds().width;
-    int height = projectile->sprite.getGlobalBounds().height;
-    x += width / 3;
-    y += height / 3;
-    width /= 3;
-    height /= 3;
-
-    // int x, int y, int width, int height
     int enemyLen = enemies.size();
     for (int i = 0; i < enemyLen; i++)
     {

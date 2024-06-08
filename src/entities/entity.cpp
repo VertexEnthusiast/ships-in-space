@@ -7,12 +7,13 @@ Entity::Entity(int x, int y, const char *texturePath) : x(x), y(y)
     this->texture.loadFromFile(texturePath);
     this->sprite.scale(Entity::spriteScale);
     this->sprite.setTexture(this->texture);
+    sprite.setPosition(sf::Vector2f(this->x, this->y));
     std::cout << "Entity constructed at (" << x << ", " << y << ")\n";
 }
 
 Entity::~Entity()
 {
-    std::cout << "Called destructor on entity";
+    std::cout << "Called destructor on entity\n";
 }
 
 void Entity::update()
@@ -42,6 +43,14 @@ bool Entity::projectileCollides(Entity *projectile, Entity *entity)
     sf::FloatRect bounds2 = sprite2.getGlobalBounds();
 
     // Check for intersection between the 4x4 square and the 32x32 sprite
+    if (innerSquare.intersects(bounds2)){
+        std::cout << "Detected collision\n";
+        std::cout << "Bounds1: " << bounds1.left << ", " << bounds1.top << ", " << bounds1.width << ", " << bounds1.height << std::endl;
+        std::cout << "InnerSquarePosition: " << innerSquarePosition.x << ", " << innerSquarePosition.y << std::endl;
+        std::cout << "InnerSquare: " << innerSquare.left << ", " << innerSquare.top << ", " << innerSquare.width << ", " << innerSquare.height << std::endl;
+        std::cout << "Bounds2: " << bounds2.left << ", " << bounds2.top << ", " << bounds2.width << ", " << bounds2.height << std::endl;
+
+    }
     return innerSquare.intersects(bounds2);
 }
 

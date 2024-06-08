@@ -1,13 +1,11 @@
-# Makefile for SFML project
-
 # Compiler
 CXX = g++
 
-# Compiler flags
-CXXFLAGS = -std=c++17 -Wall -I/opt/homebrew/include/ -Iinclude/
+# SFML_INCLUDE_DIR = /opt/homebrew/include/
+# SFML_LIB_DIR = /opt/homebrew/lib/
 
-# Linker flags
-LDFLAGS = -L/opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+CXXFLAGS = -std=c++14 -Wall -I$(SFML_INCLUDE_DIR) -Iinclude/
+LDFLAGS = -L$(SFML_LIB_DIR) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
 # Source files
 SRCS = \
@@ -15,7 +13,6 @@ src/main.cpp src/entities/entity.cpp src/manager/manager.cpp \
 src/entities/spaceship.cpp src/entities/projectile.cpp src/sprites/animated.cpp \
 src/manager/spawner.cpp src/entities/enemy.cpp src/ui/button.cpp
 
-# Object files
 OBJS = $(SRCS:.cpp=.o)
 
 # Executable name
@@ -24,11 +21,9 @@ TARGET = game
 # Default target
 all: $(TARGET)
 
-# Link the executable
 $(TARGET): $(OBJS)
 	$(CXX) -o $(TARGET) $(OBJS) $(LDFLAGS)
 
-# Compile the source files into object files
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 

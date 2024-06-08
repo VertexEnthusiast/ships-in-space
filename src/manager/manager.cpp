@@ -13,28 +13,35 @@ GameManager::GameManager(sf::RenderWindow *gameWindow)
     spawner = std::make_unique<Spawner>();
     font.loadFromFile("assets/8bit.ttf");
 
+    // Initialise health bar
+    struct FrameData frameInfo = {
+        .framesPerUpdate = 6,
+        .numFrames = 14,
+        .xdim = 32,
+        .ydim = 32};
+    healthBar = std::make_unique<Animated>(728, 0, "assets/green_bar_v2.png", &frameInfo);
+
     // Initialise score text
     scoreText.setFont(font);
     scoreText.setPosition(10, 10);
     scoreText.setCharacterSize(24);
     // scoreText.setFillColor(sf::Color::White);
 
-
     // Initialise player
-    int width = 80;
-    int height = 40;
-    startButton = std::make_unique<Button>(400-(width/2), 300-(height/2), width, height, *gameWindow, "Start", "assets/8bit.ttf", 10, 10, 24);
+    int width = 220;
+    int height = 70;
+    startButton = std::make_unique<Button>(400 - (width / 2), 380 - (height / 2), width, height, *gameWindow, "Start", "assets/8bit.ttf", 50, 5, 48);
 
-    width = 80;
-    height = 40;
-    quitButton = std::make_unique<Button>(400-(width/2), 380-(height/2), width, height, *gameWindow, "Quit", "assets/8bit.ttf", 10, 10, 24);
+    width = 160;
+    height = 60;
+    quitButton = std::make_unique<Button>(400 - (width / 2), 480 - (height / 2), width, height, *gameWindow, "Quit", "assets/8bit.ttf", 40, 6, 40);
 
-    struct FrameData frameInfo = {
+    frameInfo = {
         .framesPerUpdate = 6,
         .numFrames = 4,
         .xdim = 32,
         .ydim = 32};
-    player = std::make_unique<Spaceship>(0, 500, "assets/animated_big_spaceship_v3.png", &frameInfo);
+    player = std::make_unique<Spaceship>(10, 500, "assets/animated_big_spaceship_v3.png", &frameInfo);
     std::cout << "GameManager initialized with window pointer" << std::endl;
 
     // Initialise background
@@ -53,27 +60,58 @@ GameManager::~GameManager()
 void GameManager::update()
 {
     // If game hasn't started yet
-    if (!started){
+    if (!started)
+    {
 
-        if (startButton->update()){
+        if (startButton->update())
+        {
             started = true;
         }
-        if (quitButton->update()){
+        if (quitButton->update())
+        {
             quit = true;
         }
         return;
     }
+
+    if (ended)
+    {
+        if (quitButton->update())
+        {
+            quit = true;
+        }
+        return;
+    }
+
+    handleMovement();
+    handleUpdates();
+}
+
+void GameManager::handleMovement()
+{
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left))
     {
         // left key is pressed: move our character
-        puts("Moving left");
+        // puts("Moving left");
         player->move(-1, 0);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right))
     {
         // right key is pressed: move our character
-        puts("Moving right");
+        // puts("Moving right");
         player->move(1, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up))
+    {
+        // left key is pressed: move our character
+        // puts("Moving up");
+        player->move(0, -1);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down))
+    {
+        // right key is pressed: move our character
+        // puts("Moving down");
+        player->move(0, 1);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Space))
     {
@@ -81,12 +119,15 @@ void GameManager::update()
         puts("Spacebar pressed");
         player->shoot();
     }
+}
 
+void GameManager::handleUpdates()
+{
     // Update game logic here
     player->update();
 
     // Update spawner
-    spawner->update();
+    spawner->update(*player);
 
     // Updating player projectiles
     int len = player->fired.size();
@@ -105,8 +146,17 @@ void GameManager::update()
         }
     }
 
+    // Update health bar
+    healthBar->scaleRects(32, 32, (float)player->health / (float)player->maxHealth);
+    healthBar->animate();
+
     // Update score
     scoreText.setString("Score: " + std::to_string(spawner->score));
+
+    // Check if game is over
+    if (player->health <= 0) {
+        ended = true;
+    }
 }
 
 // Draw function definition
@@ -116,14 +166,28 @@ void GameManager::draw()
     gameWindow->clear(sf::Color::Black);
     gameWindow->draw(backgroundSprite);
 
-    if (!started){
-        startButton->draw();
-        quitButton->draw();
-        gameWindow->display();
-        return;
+    if (!started)
+    {
+        drawStart();
     }
-    
 
+    else if (ended)
+    {
+        drawEnd();
+    } else {
+        drawGame();
+    }
+
+    gameWindow->display();
+}
+
+void GameManager::drawStart()
+{
+    startButton->draw();
+    quitButton->draw();
+}
+void GameManager::drawGame()
+{
     // Draw projectiles
     int firedLen = player->fired.size();
     for (int i = 0; i < firedLen; i++)
@@ -133,6 +197,13 @@ void GameManager::draw()
 
     // Draw player
     gameWindow->draw(player->sprite);
+
+    // Draw projectiles
+    int projLen = spawner->enemyProjectiles.size();
+    for (int i = 0; i < projLen; i++)
+    {
+        gameWindow->draw(spawner->enemyProjectiles[i]->sprite);
+    }
 
     // Draw enemies
     int enemyLen = spawner->enemies.size();
@@ -144,7 +215,14 @@ void GameManager::draw()
     // Draw score
     gameWindow->draw(scoreText);
 
-    // Draw pause button
+    // Draw health
+    gameWindow->draw(healthBar->sprite);
+}
 
-    gameWindow->display();
+void GameManager::drawEnd(){
+    // Draw end screen
+    quitButton->draw();
+
+    // Draw score
+    gameWindow->draw(scoreText);
 }

@@ -18,9 +18,11 @@ public:
     int framesPerUpdate;
     int frameTime;
     int numFrames;
+    float fraction = 1.0f;
 
     Animated(int x, int y, const char *texturePath, struct FrameData *frameInfo);
 
     void animate();
     void updateAnimation(const char *texturePath, struct FrameData *frameInfo);
+    void scaleRects(int xdim, int ydim, float fraction);
 };

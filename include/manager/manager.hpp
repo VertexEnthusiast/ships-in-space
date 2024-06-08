@@ -17,6 +17,7 @@ public:
     sf::Sprite backgroundSprite;
     std::unique_ptr<Button> startButton;
     std::unique_ptr<Button> quitButton;
+    std::unique_ptr<Animated> healthBar;
 
 
     bool started = 0;
@@ -36,6 +37,13 @@ public:
      * This function is responsible for drawing sprites to the window
      */
     void draw();
+
+    void handleMovement();
+    void handleUpdates();
+
+    void drawGame();
+    void drawStart();
+    void drawEnd();
 
 private:
     sf::RenderWindow *gameWindow;

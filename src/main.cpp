@@ -4,7 +4,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Ships in Space");
     // sf::Texture texture;
     // texture.loadFromFile("assets/Alyssa.png");
     GameManager manager(&window);
@@ -26,6 +26,9 @@ int main()
                 window.close();
         }
     }
+
+    window.close();
+
 
     return 0;
 }

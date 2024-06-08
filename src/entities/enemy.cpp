@@ -1,7 +1,9 @@
 #include <sprites/animated.hpp>
 #include <entities/enemy.hpp>
+#include <iostream>
 
-Enemy::Enemy(int x, int y, const char *texturePath, struct FrameData *frameInfo, int health, int speed) : Animated(x, y, texturePath, frameInfo), health(health), speed(speed)
+Enemy::Enemy(int x, int y, const char *texturePath, struct FrameData *frameInfo, int health, int speed, std::vector<std::unique_ptr<Projectile>> &fired)
+    : Animated(x, y, texturePath, frameInfo), health(health), speed(speed), fired(fired)
 {
     puts("Wooooo enemy made");
 }
@@ -25,10 +27,34 @@ void Enemy::update()
     {
         move();
     }
+
+    if (!killed)
+    {
+        if (secondsUntilShoot == 0)
+        {
+            shoot();
+            secondsUntilShoot = 90;
+        }
+        else
+        {
+            secondsUntilShoot--;
+        }
+    }
     animate();
     sprite.setPosition(sf::Vector2f(x, y));
 }
 
+void Enemy::shoot()
+{
+    int speed = -4;
+    struct FrameData data = {
+        .numFrames = 1,
+        .framesPerUpdate = 1,
+        .xdim = 32,
+        .ydim = 32};
+    auto projectile = std::make_unique<Projectile>(this->x, this->y, "assets/basic_enemy_projectile.png", &data, speed);
+    fired.push_back(std::move(projectile)); // Move the unique_ptr into the vector
+}
 void Enemy::deadUpdate()
 {
     if (framesUntilDeath < 0)

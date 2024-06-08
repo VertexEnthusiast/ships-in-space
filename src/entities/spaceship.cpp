@@ -42,9 +42,22 @@ Spaceship::~Spaceship()
 
 void Spaceship::move(int x, int y)
 {
+    int leftbound, rightbound, topbound, bottombound;
+    leftbound = 0;
+    rightbound = 800 - Entity::spriteScale.x * 32;
+    bottombound = 600 - Entity::spriteScale.y * 32;
+    topbound = 400;
+
     int speed = 4;
-    this->x += x * speed;
-    this->y += y;
+    int newx = this->x + x * speed;
+    int newy = this->y + y * speed;
+
+    if ((newx < leftbound) || (newx > rightbound) || (newy < topbound) || (newy > bottombound)) {
+        return;
+    } else {
+        this->x = newx;
+        this->y = newy;
+    }
 }
 
 void Spaceship::update()
