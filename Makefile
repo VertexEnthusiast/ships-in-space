@@ -1,8 +1,8 @@
 # Compiler
 CXX = g++
 
-# SFML_INCLUDE_DIR = /opt/homebrew/include/
-# SFML_LIB_DIR = /opt/homebrew/lib/
+SFML_INCLUDE_DIR = /opt/homebrew/include/
+SFML_LIB_DIR = /opt/homebrew/lib/
 
 CXXFLAGS = -std=c++14 -Wall -I$(SFML_INCLUDE_DIR) -Iinclude/
 LDFLAGS = -L$(SFML_LIB_DIR) -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio

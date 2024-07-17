@@ -13,10 +13,12 @@ public:
     std::unique_ptr<Spawner> spawner;
     sf::Font font;
     sf::Text scoreText;
+    sf::Text highscoreText;
     sf::Texture background;
     sf::Sprite backgroundSprite;
     std::unique_ptr<Button> startButton;
     std::unique_ptr<Button> quitButton;
+    std::unique_ptr<Button> restartButton;
     std::unique_ptr<Animated> healthBar;
 
 
@@ -24,6 +26,7 @@ public:
     bool ended = 0;
     bool quit = 0;
 
+    int highscore = 0;
 
     GameManager(sf::RenderWindow *gameWindow);
     ~GameManager();
@@ -44,6 +47,9 @@ public:
     void drawGame();
     void drawStart();
     void drawEnd();
+
+    void constructGame();
+    void restartGame();
 
 private:
     sf::RenderWindow *gameWindow;

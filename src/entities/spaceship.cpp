@@ -10,6 +10,16 @@ Spaceship::Spaceship(int x, int y, const char *texturePath, struct FrameData *fr
         puts("Error loading laser sound");
 
     projectileSound.setBuffer(projSoundBuffer);
+
+    struct FrameData data = {
+        .numFrames = 5,
+        .framesPerUpdate = 5,
+        .xdim = 32,
+        .ydim = 96
+        };
+
+    laser = std::make_unique<Animated>(this->x, this->y, "assets/laser_animated.png", &data);
+
 }
 
 void Spaceship::shoot()
@@ -33,6 +43,12 @@ void Spaceship::shoot()
     fired.push_back(std::move(projectile)); // Move the unique_ptr into the vector
     cooldown = maxCooldown;
     projectileSound.play();
+}
+
+void Spaceship::activateLaser(){
+    if (!laserOn) {
+        laserOn = true;
+    }
 }
 
 Spaceship::~Spaceship()
@@ -64,5 +80,9 @@ void Spaceship::update()
 {
     cooldown--;
     animate();
+    if (laserOn) {
+        laser->sprite.setPosition(sf::Vector2f(x, y - 64 * Entity::spriteScale.y));
+        laser->animate();
+    }
     sprite.setPosition(sf::Vector2f(x, y));
 }

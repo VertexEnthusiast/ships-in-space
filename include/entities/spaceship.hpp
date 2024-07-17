@@ -9,6 +9,8 @@ public:
     std::vector<std::unique_ptr<Projectile>> fired;
     sf::SoundBuffer projSoundBuffer;
     sf::Sound projectileSound;
+    std::unique_ptr<Animated> laser;
+    bool laserOn = false;
     const int maxCooldown = 40;
     int cooldown;
     int health = 4;
@@ -18,6 +20,7 @@ public:
     ~Spaceship();
 
     void shoot();
+    void activateLaser();
     void move(int x, int y);
     void update() override;
 

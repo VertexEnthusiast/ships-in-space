@@ -7,9 +7,15 @@
 
 Spawner::Spawner() : difficulty(0), timeUntilSpawn(0)
 {
+    // Explosion sound
     explosionBuffer.loadFromFile("assets/explosion_v1.wav");
     explosionSound.setBuffer(explosionBuffer);
     explosionSound.setVolume(30);
+
+    // Spaceship hit sound
+    hitBuffer.loadFromFile("assets/player_damaged.wav");
+    hitSound.setBuffer(hitBuffer);
+    hitSound.setVolume(80);
     spawn();
 }
 
@@ -54,6 +60,7 @@ void Spawner::update(Spaceship &spaceship)
         if (Entity::projectileCollides(enemyProjectiles[j].get(), &spaceship))
         {
             spaceship.health -= 1;
+            hitSound.play();
             enemyProjectiles.erase(enemyProjectiles.begin() + j);
             projectileLen--;
             j--;
@@ -109,7 +116,7 @@ void Spawner::spawn()
 
     enemies.push_back(std::move(enemy));
 
-    timeUntilSpawn = 50;
+    timeUntilSpawn = spawnCooldown;
 }
 /**
  * Iterate through all enemies and delete 'exploded' enemies
@@ -141,3 +148,13 @@ bool Spawner::checkProjectileCollision(Entity *projectile)
 }
 void checkNextWave();
 void killEnemy(Enemy *enemy);
+bool Spawner::checkLoss(){
+    int enemyLen = enemies.size();
+    for (int i = 0; i < enemyLen; i++)
+    {
+        if (enemies[i]->y > 600) {
+            return true;
+        }
+    }
+    return false;
+}

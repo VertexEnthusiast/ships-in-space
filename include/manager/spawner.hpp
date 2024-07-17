@@ -15,9 +15,12 @@ public:
     //
     int difficulty;
     int score = 0;
+    int spawnCooldown = 80;
     int timeUntilSpawn;
     sf::SoundBuffer explosionBuffer;
     sf::Sound explosionSound;
+    sf::SoundBuffer hitBuffer;
+    sf::Sound hitSound;
 
     Spawner();
     ~Spawner();
@@ -28,4 +31,5 @@ public:
     void checkEnemies();
     void checkNextWave();
     void killEnemy(Enemy *enemy);
+    bool checkLoss();
 };

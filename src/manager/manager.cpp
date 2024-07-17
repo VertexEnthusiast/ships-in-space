@@ -19,15 +19,21 @@ GameManager::GameManager(sf::RenderWindow *gameWindow)
         .numFrames = 14,
         .xdim = 32,
         .ydim = 32};
-    healthBar = std::make_unique<Animated>(728, 0, "assets/green_bar_v2.png", &frameInfo);
+    healthBar = std::make_unique<Animated>(728, 20, "assets/green_bar_v2.png", &frameInfo);
 
     // Initialise score text
     scoreText.setFont(font);
     scoreText.setPosition(10, 10);
     scoreText.setCharacterSize(24);
-    // scoreText.setFillColor(sf::Color::White);
+    scoreText.setFillColor(sf::Color::White);
 
-    // Initialise player
+    // Initialise highscore text
+    highscoreText.setFont(font);
+    highscoreText.setPosition(10, 50);
+    highscoreText.setCharacterSize(24);
+    highscoreText.setFillColor(sf::Color::Blue);
+
+    // Initialise buttons
     int width = 220;
     int height = 70;
     startButton = std::make_unique<Button>(400 - (width / 2), 380 - (height / 2), width, height, *gameWindow, "Start", "assets/8bit.ttf", 50, 5, 48);
@@ -36,6 +42,11 @@ GameManager::GameManager(sf::RenderWindow *gameWindow)
     height = 60;
     quitButton = std::make_unique<Button>(400 - (width / 2), 480 - (height / 2), width, height, *gameWindow, "Quit", "assets/8bit.ttf", 40, 6, 40);
 
+    width = 220;
+    height = 70;
+    restartButton = std::make_unique<Button>(400 - (width / 2), 380 - (height / 2), width, height, *gameWindow, "Restart", "assets/8bit.ttf", 23, 5, 48);
+    
+    // Initialise player
     frameInfo = {
         .framesPerUpdate = 6,
         .numFrames = 4,
@@ -80,6 +91,12 @@ void GameManager::update()
         {
             quit = true;
         }
+
+        if (restartButton->update()){
+            restartGame();
+            started = true;
+            ended = false;
+        }
         return;
     }
 
@@ -116,8 +133,12 @@ void GameManager::handleMovement()
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Space))
     {
         // space is pressed: shoot
-        puts("Spacebar pressed");
+        // puts("Spacebar pressed");
         player->shoot();
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::E))
+    {
+        player->activateLaser();
     }
 }
 
@@ -153,8 +174,17 @@ void GameManager::handleUpdates()
     // Update score
     scoreText.setString("Score: " + std::to_string(spawner->score));
 
+    // Update highscore
+    if (spawner->score > highscore)
+    {
+        highscore = spawner->score;
+    }
+    highscoreText.setString("Highscore: " + std::to_string(highscore));
+
     // Check if game is over
-    if (player->health <= 0) {
+    if (player->health <= 0)
+    {
+        spawner->explosionSound.play();
         ended = true;
     }
 }
@@ -171,10 +201,13 @@ void GameManager::draw()
         drawStart();
     }
 
-    else if (ended)
+    else if (ended || spawner->checkLoss())
     {
+        if (spawner->score > highscore) {highscore = spawner->score;}
         drawEnd();
-    } else {
+    }
+    else
+    {
         drawGame();
     }
 
@@ -198,6 +231,11 @@ void GameManager::drawGame()
     // Draw player
     gameWindow->draw(player->sprite);
 
+    if (player->laserOn)
+    {
+        gameWindow->draw(player->laser->sprite);
+    }
+
     // Draw projectiles
     int projLen = spawner->enemyProjectiles.size();
     for (int i = 0; i < projLen; i++)
@@ -215,14 +253,70 @@ void GameManager::drawGame()
     // Draw score
     gameWindow->draw(scoreText);
 
+    // Draw highscore (if > 0)
+    gameWindow->draw(highscoreText);
+
     // Draw health
     gameWindow->draw(healthBar->sprite);
 }
 
-void GameManager::drawEnd(){
+void GameManager::drawEnd()
+{
     // Draw end screen
     quitButton->draw();
+    restartButton->draw();
 
     // Draw score
     gameWindow->draw(scoreText);
+
+    // Draw highscore
+    gameWindow->draw(highscoreText);
+}
+
+void GameManager::constructGame()
+{
+}
+
+void GameManager::restartGame()
+{
+    // Initialise enemy spawner
+    spawner = std::make_unique<Spawner>();
+    font.loadFromFile("assets/8bit.ttf");
+
+    // Initialise health bar
+    struct FrameData frameInfo = {
+        .framesPerUpdate = 6,
+        .numFrames = 14,
+        .xdim = 32,
+        .ydim = 32};
+    healthBar = std::make_unique<Animated>(728, 20, "assets/green_bar_v2.png", &frameInfo);
+
+    // Initialise score text
+    scoreText.setFont(font);
+    scoreText.setPosition(10, 10);
+    scoreText.setCharacterSize(24);
+    // scoreText.setFillColor(sf::Color::White);
+
+    // Initialise player
+    int width = 220;
+    int height = 70;
+    startButton = std::make_unique<Button>(400 - (width / 2), 380 - (height / 2), width, height, *gameWindow, "Start", "assets/8bit.ttf", 50, 5, 48);
+
+    width = 160;
+    height = 60;
+    quitButton = std::make_unique<Button>(400 - (width / 2), 480 - (height / 2), width, height, *gameWindow, "Quit", "assets/8bit.ttf", 40, 6, 40);
+
+    frameInfo = {
+        .framesPerUpdate = 6,
+        .numFrames = 4,
+        .xdim = 32,
+        .ydim = 32};
+    player = std::make_unique<Spaceship>(10, 500, "assets/animated_big_spaceship_v3.png", &frameInfo);
+    std::cout << "GameManager initialized with window pointer" << std::endl;
+
+    // Initialise background
+    background.loadFromFile("assets/starry_background.png");
+    backgroundSprite.setTexture(background);
+    backgroundSprite.setPosition(0, 0);
+    backgroundSprite.setScale(4.0f, 4.0f);
 }

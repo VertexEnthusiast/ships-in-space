@@ -78,6 +78,8 @@ void Enemy::deadUpdate()
     }
 }
 
+
+
 void Enemy::move()
 {
     y += 4 * speed;
