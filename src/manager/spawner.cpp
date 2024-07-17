@@ -112,8 +112,8 @@ void Spawner::spawn()
     int speed = 2;
 
     struct FrameData frameInfo = {
-        .framesPerUpdate = 6,
         .numFrames = 4,
+        .framesPerUpdate = 6,
         .xdim = 32,
         .ydim = 32};
     auto enemy = std::make_unique<Enemy>(x_pos, -100, "assets/basic_enemy.png", &frameInfo, health, speed, enemyProjectiles);

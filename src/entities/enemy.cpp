@@ -61,8 +61,8 @@ void Enemy::deadUpdate()
     {
         // Then it hasn't been set to 'dead' yet
         struct FrameData frameInfo = {
-            .framesPerUpdate = 6,
             .numFrames = 6,
+            .framesPerUpdate = 6,
             .xdim = 32,
             .ydim = 32};
         framesUntilDeath = frameInfo.framesPerUpdate * frameInfo.numFrames - 3;
