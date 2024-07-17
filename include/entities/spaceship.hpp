@@ -12,6 +12,8 @@ public:
     std::unique_ptr<Animated> laser;
     bool laserOn = false;
     const int maxCooldown = 40;
+    int flashing = 0;
+    bool secondFlash;
     int cooldown;
     int health = 4;
     const int maxHealth = 4;
@@ -23,6 +25,7 @@ public:
     void activateLaser();
     void move(int x, int y);
     void update() override;
+    void damaged();
 
     enum Direction
     {

@@ -46,7 +46,7 @@ void Enemy::update()
 
 void Enemy::shoot()
 {
-    int speed = -4;
+    int speed = -6;
     struct FrameData data = {
         .numFrames = 1,
         .framesPerUpdate = 1,

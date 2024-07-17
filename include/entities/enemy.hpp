@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <sprites/animated.hpp>
 #include <entities/projectile.hpp>
 

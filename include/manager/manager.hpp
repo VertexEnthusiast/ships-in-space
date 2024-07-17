@@ -16,6 +16,8 @@ public:
     sf::Text highscoreText;
     sf::Texture background;
     sf::Sprite backgroundSprite;
+    sf::Texture title;
+    sf::Sprite titleSprite;
     std::unique_ptr<Button> startButton;
     std::unique_ptr<Button> quitButton;
     std::unique_ptr<Button> restartButton;

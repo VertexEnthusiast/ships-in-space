@@ -15,11 +15,9 @@ Spaceship::Spaceship(int x, int y, const char *texturePath, struct FrameData *fr
         .numFrames = 5,
         .framesPerUpdate = 5,
         .xdim = 32,
-        .ydim = 96
-        };
+        .ydim = 96};
 
     laser = std::make_unique<Animated>(this->x, this->y, "assets/laser_animated.png", &data);
-
 }
 
 void Spaceship::shoot()
@@ -45,8 +43,10 @@ void Spaceship::shoot()
     projectileSound.play();
 }
 
-void Spaceship::activateLaser(){
-    if (!laserOn) {
+void Spaceship::activateLaser()
+{
+    if (!laserOn)
+    {
         laserOn = true;
     }
 }
@@ -68,9 +68,12 @@ void Spaceship::move(int x, int y)
     int newx = this->x + x * speed;
     int newy = this->y + y * speed;
 
-    if ((newx < leftbound) || (newx > rightbound) || (newy < topbound) || (newy > bottombound)) {
+    if ((newx < leftbound) || (newx > rightbound) || (newy < topbound) || (newy > bottombound))
+    {
         return;
-    } else {
+    }
+    else
+    {
         this->x = newx;
         this->y = newy;
     }
@@ -80,9 +83,38 @@ void Spaceship::update()
 {
     cooldown--;
     animate();
-    if (laserOn) {
+    if (laserOn)
+    {
         laser->sprite.setPosition(sf::Vector2f(x, y - 64 * Entity::spriteScale.y));
         laser->animate();
     }
+
+    // Do flashing animation
+    if (flashing > 0)
+    {
+        if (flashing == 12 || flashing == 2)
+        {
+            sf::Color color = sprite.getColor();
+            color.a = 255;
+            sprite.setColor(color);
+        }
+        if (flashing == 8)
+        {
+            sf::Color color = sprite.getColor();
+            color.a = 100;
+            sprite.setColor(color);
+        }
+
+        flashing--;
+    }
+
     sprite.setPosition(sf::Vector2f(x, y));
+}
+
+void Spaceship::damaged()
+{
+    flashing = 15;
+    sf::Color color = sprite.getColor();
+    color.a = 100;
+    sprite.setColor(color);
 }

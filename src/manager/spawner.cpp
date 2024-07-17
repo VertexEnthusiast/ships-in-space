@@ -15,7 +15,7 @@ Spawner::Spawner() : difficulty(0), timeUntilSpawn(0)
     // Spaceship hit sound
     hitBuffer.loadFromFile("assets/player_damaged.wav");
     hitSound.setBuffer(hitBuffer);
-    hitSound.setVolume(80);
+    hitSound.setVolume(50);
     spawn();
 }
 
@@ -59,8 +59,12 @@ void Spawner::update(Spaceship &spaceship)
     {
         if (Entity::projectileCollides(enemyProjectiles[j].get(), &spaceship))
         {
+            // Spaceship logic
             spaceship.health -= 1;
             hitSound.play();
+            spaceship.damaged();
+
+            // Destroy projectile
             enemyProjectiles.erase(enemyProjectiles.begin() + j);
             projectileLen--;
             j--;

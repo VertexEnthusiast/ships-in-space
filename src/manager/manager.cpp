@@ -15,8 +15,8 @@ GameManager::GameManager(sf::RenderWindow *gameWindow)
 
     // Initialise health bar
     struct FrameData frameInfo = {
-        .framesPerUpdate = 6,
         .numFrames = 14,
+        .framesPerUpdate = 6,
         .xdim = 32,
         .ydim = 32};
     healthBar = std::make_unique<Animated>(728, 20, "assets/green_bar_v2.png", &frameInfo);
@@ -45,11 +45,11 @@ GameManager::GameManager(sf::RenderWindow *gameWindow)
     width = 220;
     height = 70;
     restartButton = std::make_unique<Button>(400 - (width / 2), 380 - (height / 2), width, height, *gameWindow, "Restart", "assets/8bit.ttf", 23, 5, 48);
-    
+
     // Initialise player
     frameInfo = {
-        .framesPerUpdate = 6,
         .numFrames = 4,
+        .framesPerUpdate = 6,
         .xdim = 32,
         .ydim = 32};
     player = std::make_unique<Spaceship>(10, 500, "assets/animated_big_spaceship_v3.png", &frameInfo);
@@ -60,6 +60,12 @@ GameManager::GameManager(sf::RenderWindow *gameWindow)
     backgroundSprite.setTexture(background);
     backgroundSprite.setPosition(0, 0);
     backgroundSprite.setScale(4.0f, 4.0f);
+
+    // Initialise title
+    title.loadFromFile("assets/title.png");
+    titleSprite.setTexture(title);
+    titleSprite.setPosition(150, 0);
+    titleSprite.setScale(2.0f, 2.0f);
 }
 
 GameManager::~GameManager()
@@ -92,7 +98,8 @@ void GameManager::update()
             quit = true;
         }
 
-        if (restartButton->update()){
+        if (restartButton->update())
+        {
             restartGame();
             started = true;
             ended = false;
@@ -203,7 +210,10 @@ void GameManager::draw()
 
     else if (ended || spawner->checkLoss())
     {
-        if (spawner->score > highscore) {highscore = spawner->score;}
+        if (spawner->score > highscore)
+        {
+            highscore = spawner->score;
+        }
         drawEnd();
     }
     else
@@ -216,6 +226,7 @@ void GameManager::draw()
 
 void GameManager::drawStart()
 {
+    gameWindow->draw(titleSprite);
     startButton->draw();
     quitButton->draw();
 }
@@ -285,8 +296,8 @@ void GameManager::restartGame()
 
     // Initialise health bar
     struct FrameData frameInfo = {
-        .framesPerUpdate = 6,
         .numFrames = 14,
+        .framesPerUpdate = 6,
         .xdim = 32,
         .ydim = 32};
     healthBar = std::make_unique<Animated>(728, 20, "assets/green_bar_v2.png", &frameInfo);
@@ -307,8 +318,8 @@ void GameManager::restartGame()
     quitButton = std::make_unique<Button>(400 - (width / 2), 480 - (height / 2), width, height, *gameWindow, "Quit", "assets/8bit.ttf", 40, 6, 40);
 
     frameInfo = {
-        .framesPerUpdate = 6,
         .numFrames = 4,
+        .framesPerUpdate = 6,
         .xdim = 32,
         .ydim = 32};
     player = std::make_unique<Spaceship>(10, 500, "assets/animated_big_spaceship_v3.png", &frameInfo);
