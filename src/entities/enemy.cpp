@@ -1,5 +1,5 @@
-#include <sprites/animated.hpp>
 #include <entities/enemy.hpp>
+#include <sprites/animated.hpp>
 #include <iostream>
 
 Enemy::Enemy(int x, int y, const char *texturePath, struct FrameData *frameInfo, int health, int speed, std::vector<std::unique_ptr<Projectile>> &fired)
@@ -55,6 +55,7 @@ void Enemy::shoot()
     auto projectile = std::make_unique<Projectile>(this->x, this->y, "assets/basic_enemy_projectile.png", &data, speed);
     fired.push_back(std::move(projectile)); // Move the unique_ptr into the vector
 }
+
 void Enemy::deadUpdate()
 {
     if (framesUntilDeath < 0)
@@ -77,8 +78,6 @@ void Enemy::deadUpdate()
         exploded = true;
     }
 }
-
-
 
 void Enemy::move()
 {

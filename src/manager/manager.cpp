@@ -19,7 +19,7 @@ GameManager::GameManager(sf::RenderWindow *gameWindow)
         .framesPerUpdate = 6,
         .xdim = 32,
         .ydim = 32};
-    healthBar = std::make_unique<Animated>(728, 20, "assets/green_bar_v2.png", &frameInfo);
+    healthBar = std::make_unique<Animated>(728, 0, "assets/green_bar_v2.png", &frameInfo);
 
     // Initialise score text
     scoreText.setFont(font);
@@ -115,31 +115,26 @@ void GameManager::handleMovement()
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left))
     {
-        // left key is pressed: move our character
         // puts("Moving left");
         player->move(-1, 0);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right))
     {
-        // right key is pressed: move our character
         // puts("Moving right");
         player->move(1, 0);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up))
     {
-        // left key is pressed: move our character
         // puts("Moving up");
         player->move(0, -1);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down))
     {
-        // right key is pressed: move our character
         // puts("Moving down");
         player->move(0, 1);
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Space))
     {
-        // space is pressed: shoot
         // puts("Spacebar pressed");
         player->shoot();
     }
@@ -300,7 +295,7 @@ void GameManager::restartGame()
         .framesPerUpdate = 6,
         .xdim = 32,
         .ydim = 32};
-    healthBar = std::make_unique<Animated>(728, 20, "assets/green_bar_v2.png", &frameInfo);
+    healthBar = std::make_unique<Animated>(728, 0, "assets/green_bar_v2.png", &frameInfo);
 
     // Initialise score text
     scoreText.setFont(font);

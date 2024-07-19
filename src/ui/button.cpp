@@ -22,8 +22,6 @@ Button::Button(int x, int y, int width, int height, sf::RenderWindow &window,
     text.setCharacterSize(fontSize);
     text.setPosition(x + xOffset, y + yOffset);
     text.setString(buttonString);
-    // text.setFillColor(sf::Color::Black);
-    // text.setStyle(sf::Text::Bold);
 }
 
 Button::~Button()

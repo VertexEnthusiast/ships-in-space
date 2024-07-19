@@ -86,6 +86,7 @@ void Spawner::spawn()
 
     bool tooClose = true;
     int attempts = 0;
+
     // Ensure that there aren't any nearby enemies
     while (tooClose && attempts < 50)
     {
@@ -122,6 +123,7 @@ void Spawner::spawn()
 
     timeUntilSpawn = spawnCooldown;
 }
+
 /**
  * Iterate through all enemies and delete 'exploded' enemies
  * and trigger explosion on 'killed' enemies
@@ -150,8 +152,7 @@ bool Spawner::checkProjectileCollision(Entity *projectile)
     }
     return false;
 }
-void checkNextWave();
-void killEnemy(Enemy *enemy);
+
 bool Spawner::checkLoss(){
     int enemyLen = enemies.size();
     for (int i = 0; i < enemyLen; i++)

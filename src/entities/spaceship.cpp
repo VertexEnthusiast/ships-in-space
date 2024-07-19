@@ -89,7 +89,7 @@ void Spaceship::update()
         laser->animate();
     }
 
-    // Do flashing animation
+    // Do flashing animation when hit
     if (flashing > 0)
     {
         if (flashing == 12 || flashing == 2)

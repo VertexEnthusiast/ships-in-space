@@ -15,12 +15,12 @@ public:
     bool killed = false;
     bool exploded = false;
 
-    Enemy(int x, int y, const char *texturePath, struct FrameData *frameInfo, int health, int speed, std::vector<std::unique_ptr<Projectile>> &fired);
+    Enemy(int x, int y, const char *texturePath, struct FrameData *frameInfo,
+          int health, int speed, std::vector<std::unique_ptr<Projectile>> &fired);
     ~Enemy();
 
     void shoot();
     void move();
     void deadUpdate();
-
     void update();
 };

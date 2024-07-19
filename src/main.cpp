@@ -5,12 +5,9 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Ships in Space");
-    // sf::Texture texture;
-    // texture.loadFromFile("assets/Alyssa.png");
     GameManager manager(&window);
-    // change the size of the window
     window.setFramerateLimit(60);
-    // window.setSize(sf::Vector2u(800, 600));
+    window.setSize(sf::Vector2u(800, 600));
 
     // run the program as long as the window is open
     while (window.isOpen() and !manager.quit)
@@ -27,7 +24,7 @@ int main()
         }
     }
 
-    window.close();
+    if (manager.quit) window.close();
 
 
     return 0;

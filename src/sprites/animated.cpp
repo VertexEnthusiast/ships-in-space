@@ -28,8 +28,6 @@ void Animated::animate()
         // puts("I'm offscreen");
         return;
     }
-    // this->y -= speed * 1;
-    // sprite.setPosition(sf::Vector2f(this->x, this->y));
 }
 
 void Animated::updateAnimation(const char *texturePath, struct FrameData *frameInfo)

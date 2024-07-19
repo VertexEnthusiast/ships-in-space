@@ -23,11 +23,9 @@ public:
     std::unique_ptr<Button> restartButton;
     std::unique_ptr<Animated> healthBar;
 
-
     bool started = 0;
     bool ended = 0;
     bool quit = 0;
-
     int highscore = 0;
 
     GameManager(sf::RenderWindow *gameWindow);
