@@ -4,7 +4,8 @@
 ## Demo
 
 
-https://github.com/herbertiser/ships-in-space/assets/152287856/55dbdccc-7a2a-4b57-8a74-5ee5912dc613
+[Watch the demo](https://github.com/VertexEnthusiast/ships-in-space/blob/main/assets/demo.mov)
+
 
 ## Prerequisites
 
